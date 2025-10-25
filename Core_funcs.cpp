@@ -145,3 +145,7 @@ Core Core::reduceBlocks(std::size_t /*blockM*/, std::size_t /*blockN*/) const {
 void Core::matrixToBalls() {
     // TODO: implement matrix-to-balls logic
 }
+
+void Core::displayWallSimulation(){
+    // TODO: implement displayWallSimulation
+}
