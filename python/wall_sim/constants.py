@@ -3,6 +3,7 @@ import math
 sys.path.append("..")
 from pymathlib import util
 import colors
+sys.path.remove("..")
 
 CANVAS_WIDTH = 800 # pixels
 CANVAS_HEIGHT = 600 # pixesl

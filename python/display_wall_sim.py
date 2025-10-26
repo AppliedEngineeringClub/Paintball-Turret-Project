@@ -21,8 +21,10 @@ while keep_alive:
     screen.fill(BACKGROUND_COLOR)
     # pygame.draw.rect(screen, WALL_COLOR, (0, 0, 200, 200))
     wall.draw_wall(screen)
-    center = util.cartesian_to_native(0, 0)
-    pygame.draw.circle(screen, (255, 0, 0), center, 40)
+
+    wall.draw_paintball(screen, (0, 0), colors.BLUE)
+    # center = util.cartesian_to_native(0, 0)
+    # pygame.draw.circle(screen, (255, 0, 0), center, 40)
 
     pygame.display.flip()
 

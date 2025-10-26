@@ -6,6 +6,7 @@ from typing import Tuple
 sys.path.append("..")
 from pymathlib import util
 import colors
+sys.path.remove("..")
 
 H_FOV = 75 * (math.pi / 180) # radians
 V_FOV = 60 * (math.pi / 180) # radians
@@ -31,8 +32,6 @@ class Wall:
 
         self.distance = distance
 
-        self.meters_per_pixel = self.wall_width / self.canvas_width
-
         self.wall_color = wall_color
         
         self.distance_of_max_view = 0.0
@@ -42,13 +41,28 @@ class Wall:
         else:
             self.distance_of_max_view = math.tan(V_FOV) * self.wall_height
 
+        self.meters_per_pixel = (self.distance_of_max_view / self.distance) * (self.wall_width / self.canvas_width)
+
+        print(self.meters_per_pixel)
+        print((self.distance_of_max_view / self.distance) * (self.wall_height / self.canvas_height))
+
+
         # https://www.desmos.com/calculator/ehsfov4mqa
 
+    def get_scale_ratio(self):
+        return (self.distance_of_max_view / self.distance)
+
     def draw_wall(self, screen):
-        width = (self.distance_of_max_view / self.distance) * self.canvas_width
+        width = (self.distance_of_max_view / self.distance) * self.wall_width
         height = (self.distance_of_max_view / self.distance) * self.canvas_height
 
         center = util.cartesian_to_native(0, 0)
 
         pygame.draw.rect(screen, self.wall_color, (center[0] - width / 2, center[1] - height / 2, width, height))
 
+    def draw_paintball(self, screen, position: Tuple[int, int], color: Tuple[int, int, int]):
+        radius_pixels = 0.02 * (1 / self.meters_per_pixel)
+
+        native = util.cartesian_to_native(position[0], position[1])
+
+        pygame.draw.circle(screen, color, native, radius_pixels)
