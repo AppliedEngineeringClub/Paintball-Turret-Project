@@ -1,0 +1,9 @@
+{
+  "width": 1024,
+  "height": 1024,
+  "channels": 3,
+  "layout": "row-major RGB",
+  "pixel_order": "R,G,B",
+  "source": "image/image.png",
+  "bytes": 3145728
+}
