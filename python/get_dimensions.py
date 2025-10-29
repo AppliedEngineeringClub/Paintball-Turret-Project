@@ -8,9 +8,10 @@ then writes its width and height in pixels to the file
 """
 
 from PIL import Image  # Requires Pillow library
+from pathlib import Path # file paths (portable across OSes)
 import sys
 
-image_path = " ~/image/image.png"  # hard-coded path of input image
+image_path = Path("image/image.png")  # hard-coded path of input image
 
 try:
     img = Image.open(image_path)

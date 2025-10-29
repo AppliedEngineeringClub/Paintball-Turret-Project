@@ -23,7 +23,7 @@ from PIL import Image
 # Hard‑coded I/O locations
 # -----------------------------
 # Input image path (relative to repo root). You can change this to match your repo.
-IN_PATH = Path("~/image/image.png")
+IN_PATH = Path("image/image.png")
 
 # Output directory where all derived files are written.
 OUT_DIR = Path("image/out")
