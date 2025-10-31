@@ -1,8 +1,14 @@
-import pygame
-import sys
-import math
-from wall_sim.constants import *
+# Standard library imports
+from pathlib import Path  # file paths (portable across OSes)
+import json               # write small metadata sidecar
+import csv                # optional human‑readable dump
+import os                 # os seek
+import numpy as np
+import time
 
+import pygame             # for wall rendering
+import sys                # import handling
+from wall_sim.constants import *
 from typing import Tuple
 
 sys.path.append("..")
@@ -33,12 +39,6 @@ class Wall:
 
         self.wall_color = wall_color
     
-        print(METERS_PER_PIXEL)
-        print(H_FOV)
-        print(V_FOV)
-
-        # https://www.desmos.com/calculator/ehsfov4mqa
-
     def draw_wall(self, screen):
         width = PIXELS_PER_METER * self.wall_width
         height = PIXELS_PER_METER * self.wall_height
