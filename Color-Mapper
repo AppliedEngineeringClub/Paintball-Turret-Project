@@ -1,0 +1,96 @@
+//Need Open CV
+#include <opencv2/opencv.hpp>
+#include <iostream>
+#include <cmath>
+#include <vector>
+
+using namespace cv;
+using namespace std;
+
+//Individual color structure
+struct Color
+{
+    int r;
+    int g;
+    int b;
+};
+
+//Function Prototypes
+int colorDistnace (Color c1, Color c2);
+
+Color findClosest (Color pixel, Color palette[], int paletteSize);
+
+int main ()
+{
+    //Load image 
+    string filename = "image.jpg";
+    Mat image = imread (filename);
+
+    //check if image has loaded
+    if (image.empty())
+    {
+        cout << "Could not open or find the image" << endl;
+        return -1;
+    }
+
+    //Define color palette
+    vector<Color> palette[4] = {
+                        {255, 0, 0},    // Red
+                        {0, 255, 0},    // Green
+                        {0, 0, 255},    // Blue
+                        {255, 255, 255}   // White
+
+                        };  
+    //Need to make copy so we dont change original image
+    Mat result = image.clone();
+
+    //Process each pixel 
+    for (int row = 0 ; row , image.rows ; row++)
+    {
+        for (int col = 0 ; col , image.cols ; col++)
+        {
+            Vec3b pixel = image.at<Vec3b>(row, col);
+            Color c = {pixel[2], pixel[1], pixel[0]}; // OpenCV uses BGR format
+            Color closest = findClosest (c, pallette, 4);
+            
+            result.at <Vec3b>(row, col) = Vec3b(closest.b, closest.g, closest.r);
+        }
+
+
+    }
+    //Save the result
+    imwrite ("result.jpg", result);
+    //Display the images
+    imshow ("Original Image", image);
+    imshow ( "4 Color Image", result);
+    waitKey(0);
+
+    return 0;
+    
+} // end of main 
+
+Color findClosest (Color pixel, Color palette[], int paletteSize)
+{
+    int minDistance = INT_MAX;
+    Color closestColor = palette[0];
+
+    for (int i = 0 ; i < paletteSize ; i++)
+    {
+        int distance = colorDistnace (pixel, palette[i]);
+        if (distance < minDistance)
+        {
+            minDistance = distance;
+            closestColor = palette[i];
+        }
+    }
+    return closestColor;
+} // end of findClosest
+
+int colorDistance (Color c1, Color c2)
+{
+    int dr = c1.r - c2.r;
+    int dg = c1.g - c2.g;
+    int db = c1.b - c2.b;
+
+    return sqrt(dr * dr + dg * dg + db * db);
+}// end of colorDistance
