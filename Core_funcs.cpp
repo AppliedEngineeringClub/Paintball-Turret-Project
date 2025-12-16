@@ -140,12 +140,23 @@ Core Core::reduceBlocks(std::size_t /*blockM*/, std::size_t /*blockN*/) const {
     // TODO: implement block reduction logic
     return Core(0, 0);
 }
+    // TODO: implement matrix-to-balls logic 
 
 // matrixToBalls implementation stub
 void Core::matrixToBalls() {
-    // TODO: implement matrix-to-balls logic
+   // this will be mono lithic and prob use bash for the linux comands 
+   // tranlate to comands for the moters
+
+    // use pgio pins 
+    // methid one is gen a script and send it all at one time 
+    // methid 2 live input 
+    // methid 3 
+    // check for limits and not over doing it on speed and angle lim 
+    // moter one gpio 12 is x and gpio 13 is y 
+    
 }
 
 void Core::displayWallSimulation(){
-    // TODO: implement displayWallSimulation
+    // input form maxrix 
+// (void)std::system("python3 python/DisplayWallSimulattion.py > /dev/null 2>&1");
 }
