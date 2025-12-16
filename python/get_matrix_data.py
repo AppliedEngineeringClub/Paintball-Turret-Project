@@ -22,11 +22,14 @@ from PIL import Image
 # -----------------------------
 # Hard‑coded I/O locations
 # -----------------------------
-# Input image path (relative to repo root). You can change this to match your repo.
-IN_PATH = Path("~/image/image.png")
+# Resolve repo root relative to this script so it works regardless of CWD
+ROOT = Path(__file__).resolve().parents[1]
+
+# Input image path (inside repo root)
+IN_PATH = ROOT / "image" / "image.png"
 
 # Output directory where all derived files are written.
-OUT_DIR = Path("image/out")
+OUT_DIR = ROOT / "image" / "out"
 
 # Derived outputs (created inside OUT_DIR). We keep names stable so C++ can look them up.
 BIN_PATH  = OUT_DIR / "pythonoutput.bin"     # raw RGB bytes: width*height*3 bytes
