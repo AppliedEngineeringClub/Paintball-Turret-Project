@@ -6,6 +6,9 @@
 #include <cstddef>          // for std::size_t
 #include <cstdint>          // for uint8_t
 #include <string>           // for std::string
+#include <limits>           // for std::numeric_limits
+#include <array>            // for std::array
+#include <vector>           // for std::vector
 
 namespace {
 // Very small helper to extract an integer after a given JSON key in a tiny file.
@@ -130,9 +133,49 @@ void Core::imageProcessor() {
               << CHANNELS << " × " << origHeight << " × " << origWidth << ")\n";
 }
 
-// mapToNearestColor implementation stub
-void Core::mapToNearestColor(const std::vector<std::array<uint8_t,3>>& /*palette*/) {
-    // TODO: implement nearest-color mapping
+// mapToNearestColor: replace each pixel with the nearest color from the palette (by RGB distance)
+void Core::mapToNearestColor(const std::vector<std::array<uint8_t,3>>& palette) {
+    if (palette.empty() || matrix.empty()) {
+        return;
+    }
+
+    const std::size_t CHANNELS = 3; // expecting RGB
+    if (matrix.size() % CHANNELS != 0) {
+        // malformed matrix; do nothing
+        return;
+    }
+
+    const std::size_t pixelCount = matrix.size() / CHANNELS;
+
+    for (std::size_t i = 0; i < pixelCount; ++i) {
+        const std::size_t idx = i * CHANNELS;
+        const int r = static_cast<int>(matrix[idx + 0]);
+        const int g = static_cast<int>(matrix[idx + 1]);
+        const int b = static_cast<int>(matrix[idx + 2]);
+
+        std::uint32_t bestDist = std::numeric_limits<std::uint32_t>::max();
+        std::size_t bestIdx = 0;
+
+        for (std::size_t p = 0; p < palette.size(); ++p) {
+            const int pr = static_cast<int>(palette[p][0]);
+            const int pg = static_cast<int>(palette[p][1]);
+            const int pb = static_cast<int>(palette[p][2]);
+
+            const int dr = r - pr;
+            const int dg = g - pg;
+            const int db = b - pb;
+
+            const std::uint32_t dist = static_cast<std::uint32_t>(dr * dr + dg * dg + db * db);
+            if (dist < bestDist) {
+                bestDist = dist;
+                bestIdx = p;
+            }
+        }
+
+        matrix[idx + 0] = palette[bestIdx][0];
+        matrix[idx + 1] = palette[bestIdx][1];
+        matrix[idx + 2] = palette[bestIdx][2];
+    }
 }
 
 // reduceBlocks implementation stub
